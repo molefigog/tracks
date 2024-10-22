@@ -34,51 +34,55 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 5: Install Quasar CLI
+      # Step 5: Install Dart Sass Embedded
+      - name: Install Dart Sass Embedded
+        run: npm install sass-embedded --save-dev
+
+      # Step 6: Install Quasar CLI
       - name: Install Quasar CLI
         run: npm install -g @quasar/cli
 
-      # Step 6: Install Cordova
+      # Step 7: Install Cordova
       - name: Install Cordova
         run: npm install -g cordova
 
-      # Step 7: Initialize Cordova Project
+      # Step 8: Initialize Cordova Project
       - name: Initialize Cordova
         run: |
           npx cordova create src-cordova com.molefigog.tracks "Tracks App"
 
-      # Step 8: Add Android Platform to Cordova
+      # Step 9: Add Android Platform to Cordova
       - name: Add Android Platform
         run: |
           cd src-cordova
           npx cordova platform add android
 
-      # Step 9: Build Quasar for Android with Cordova
+      # Step 10: Build Quasar for Android with Cordova
       - name: Build Quasar Android
         run: |
           quasar build -m cordova -T android
 
-      # Step 10: Set up Java for Android build
+      # Step 11: Set up Java for Android build
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '11' # Java 11 or newer, as required by Gradle and Android SDK
 
-      # Step 11: Set up Android SDK
+      # Step 12: Set up Android SDK
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
           api-level: 33
           build-tools-version: '33.0.0'
 
-      # Step 12: Build APK using Gradle
+      # Step 13: Build APK using Gradle
       - name: Build APK
         run: |
           cd src-cordova/platforms/android
           ./gradlew assembleRelease
 
-      # Step 13: Upload the APK as an artifact
+      # Step 14: Upload the APK as an artifact
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:

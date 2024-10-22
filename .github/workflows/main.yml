@@ -1,0 +1,71 @@
+name: Build Quasar Android APK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x' # Ensure to use a version compatible with Quasar
+
+    # Step 3: Cache node_modules (Optional: speeds up builds)
+    - name: Cache node_modules
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node_modules-
+
+    # Step 4: Install project dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # Step 5: Install Quasar CLI
+    - name: Install Quasar CLI
+      run: npm install -g @quasar/cli
+
+    # Step 6: Build Quasar for Android with Capacitor
+    - name: Build Quasar Android
+      run: |
+        quasar build -m capacitor -T android
+
+    # Step 7: Set up Java for Android build
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '11' # Java 11 or newer, as required by Gradle and Android SDK
+
+    # Step 8: Set up Android SDK
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v2
+      with:
+        api-level: 33
+        build-tools-version: '33.0.0'
+
+    # Step 9: Build APK using Gradle
+    - name: Build APK
+      run: |
+        cd src-capacitor/android
+        ./gradlew assembleRelease
+
+    # Step 10: Upload the APK as an artifact
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: android-apk
+        path: src-capacitor/android/app/build/outputs/apk/release/app-release.apk

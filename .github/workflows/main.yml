@@ -38,12 +38,13 @@ jobs:
     - name: Install Quasar CLI
       run: npm install -g @quasar/cli
 
-    # Step 6: Build Quasar for Android with Capacitor
+    # Step 6: Set Capacitor App ID and Build Quasar for Android with Capacitor
     - name: Build Quasar Android
       run: |
+        npx cap init "Tracks App" "com.molefigog.tracks" --web-dir dist/spa
         quasar build -m capacitor -T android
 
-    # Step 7: Set up Java for Android build
+    # Step 7: Set up JDK for Android build
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:

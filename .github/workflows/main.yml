@@ -38,33 +38,36 @@ jobs:
     - name: Install Quasar CLI
       run: npm install -g @quasar/cli
 
-    # Step 6: Set Capacitor App ID and Build Quasar for Android with Capacitor
+    # Step 6: Initialize Capacitor with App ID (No prompt)
+    - name: Initialize Capacitor
+      run: npx cap init "Tracks App" "com.molefigog.tracks" --web-dir dist/spa || echo "Capacitor may already be initialized"
+
+    # Step 7: Build Quasar for Android with Capacitor
     - name: Build Quasar Android
       run: |
-        npx cap init "Tracks App" "com.molefigog.tracks" --web-dir dist/spa
         quasar build -m capacitor -T android
 
-    # Step 7: Set up JDK for Android build
+    # Step 8: Set up JDK for Android build
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
         distribution: 'adopt'
         java-version: '11' # Java 11 or newer, as required by Gradle and Android SDK
 
-    # Step 8: Set up Android SDK
+    # Step 9: Set up Android SDK
     - name: Set up Android SDK
       uses: android-actions/setup-android@v2
       with:
         api-level: 33
         build-tools-version: '33.0.0'
 
-    # Step 9: Build APK using Gradle
+    # Step 10: Build APK using Gradle
     - name: Build APK
       run: |
         cd src-capacitor/android
         ./gradlew assembleRelease
 
-    # Step 10: Upload the APK as an artifact
+    # Step 11: Upload the APK as an artifact
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:

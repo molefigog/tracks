@@ -1,6 +1,5 @@
 # Getting Started with Project Frontend
 
-### Generated with [RadSystems](https://radsystems.io)
 
 ## Available Scripts
 In the project directory:
@@ -40,7 +39,4 @@ Deploy generated files in `build folder` to your webserver
 - ```src/.env``` app configurations
 
 
-### For more info
-See [RadSystems](https://radsystems.io/)
-See [Quasar Framework](https://quasar.dev)
 

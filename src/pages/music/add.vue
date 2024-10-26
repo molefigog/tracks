@@ -153,7 +153,7 @@
                                                     Free *
                                                 </div>
                                                 <div class="col-sm-9 col-12">
-                                                    <q-field hint="if marked as free it will be available to be downloaded without costs" borderless   :error="isFieldValid('free')" :error-message="getFieldError('free')">
+                                                    <q-field hint="For Free Downloads" borderless   :error="isFieldValid('free')" :error-message="getFieldError('free')">
                                                     <q-option-group  ref="ctrlfree" v-model="formData.free" :options="app.menus.free"  inline size="md" ></q-option-group>
                                                     </q-field>
                                                 </div>
@@ -165,7 +165,7 @@
                                                     Beat *
                                                 </div>
                                                 <div class="col-sm-9 col-12">
-                                                    <q-field hint="choose whether this track is a song or a beat" borderless   :error="isFieldValid('beat')" :error-message="getFieldError('beat')">
+                                                    <q-field hint="This track is a song or a beat?" borderless   :error="isFieldValid('beat')" :error-message="getFieldError('beat')">
                                                     <q-option-group  ref="ctrlbeat" v-model="formData.beat" :options="app.menus.beat"  inline size="md" ></q-option-group>
                                                     </q-field>
                                                 </div>
@@ -177,7 +177,7 @@
                                                     Publish *
                                                 </div>
                                                 <div class="col-sm-9 col-12">
-                                                    <q-field hint="published tracks will be vissible public" borderless   :error="isFieldValid('publish')" :error-message="getFieldError('publish')">
+                                                    <q-field hint="Save to Draft or Public" borderless   :error="isFieldValid('publish')" :error-message="getFieldError('publish')">
                                                     <q-option-group  ref="ctrlpublish" v-model="formData.publish" :options="app.menus.publish"  inline size="md" ></q-option-group>
                                                     </q-field>
                                                 </div>

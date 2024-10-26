@@ -1,9 +1,9 @@
 {
-  "name": "levi",
+  "name": "gw-ent",
   "version": "0.0.1",
-  "description": "levi",
-  "productName": "levi",
-  "author": "Your Name Here",
+  "description": "GW ENT",
+  "productName": "Gw-ent",
+  "author": "Molefi",
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
@@ -28,7 +28,7 @@
     "@quasar/app-webpack": "^3.0.0",
     "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.15",
     "autoprefixer": "^10.4.7",
-    "workbox-webpack-plugin": "^6.6.0"
+    "workbox-webpack-plugin": "^7.1.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Gw-ent</string>
+    <string name="title_activity_main">Gw-ent</string>
+    <string name="package_name">com.gw.ent</string>
+    <string name="custom_url_scheme">com.gw.ent</string>
+</resources>

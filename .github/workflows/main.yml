@@ -1,0 +1,84 @@
+name: Build Quasar Android APK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x' # Ensure to use a version compatible with Quasar
+
+      # Step 3: Install project dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Install Quasar CLI and Cordova
+      - name: Install Quasar CLI and Cordova
+        run: |
+          npm install -g @quasar/cli
+          npm install -g cordova
+
+      # Step 5: Initialize Cordova Project (if necessary)
+      - name: Initialize Cordova
+        run: |
+          npx cordova create src-cordova com.molefigog.tracks "Tracks App"
+
+      # Step 6: Add Android Platform to Cordova
+      - name: Add Android Platform
+        run: |
+          cd src-cordova
+          npx cordova platform add android || { echo "Failed to add Android platform"; exit 1; }
+
+      # Step 7: Check for the Android platform directory
+      - name: Check Android Platform Directory
+        run: ls -la src-cordova/platforms/android
+
+      # Step 8: Verify if gradlew exists
+      - name: Check for gradlew
+        run: |
+          if [ -f src-cordova/platforms/android/gradlew ]; then
+            echo "gradlew found."
+          else
+            echo "gradlew not found."
+            exit 1
+          fi
+
+      # Step 9: Set up JDK for Android build
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17' # Use Java 17 as required by the Gradle plugin
+
+      # Step 10: Set up Android SDK
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 33
+          build-tools-version: '33.0.0'
+
+      # Step 11: Build APK using Gradle
+      - name: Build APK
+        run: |
+          cd src-cordova/platforms/android
+          ./gradlew assembleRelease || { echo "gradlew not found or failed"; exit 1; }
+
+      # Step 12: Upload the APK as an artifact
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-apk
+          path: src-cordova/platforms/android/app/build/outputs/apk/release/app-release.apk
